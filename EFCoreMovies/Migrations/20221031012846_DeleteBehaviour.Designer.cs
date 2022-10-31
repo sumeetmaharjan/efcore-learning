@@ -4,6 +4,7 @@ using EFCoreMovies;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using NetTopologySuite.Geometries;
 
@@ -12,9 +13,10 @@ using NetTopologySuite.Geometries;
 namespace EFCoreMovies.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20221031012846_DeleteBehaviour")]
+    partial class DeleteBehaviour
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -203,32 +205,6 @@ namespace EFCoreMovies.Migrations
                             Location = (NetTopologySuite.Geometries.Point)new NetTopologySuite.IO.WKTReader().Read("SRID=4326;POINT (27.6992707 85.3084962)"),
                             Name = "Civil Mall"
                         });
-                });
-
-            modelBuilder.Entity("EFCoreMovies.Entities.CinemaDetail", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<string>("CodeOfConduct")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("History")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Missions")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Values")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("Cinemas", (string)null);
                 });
 
             modelBuilder.Entity("EFCoreMovies.Entities.CinemaHall", b =>
@@ -785,97 +761,6 @@ namespace EFCoreMovies.Migrations
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("EFCoreMovies.Entities.Actor", b =>
-                {
-                    b.OwnsOne("EFCoreMovies.Entities.Address", "BillingAddress", b1 =>
-                        {
-                            b1.Property<Guid>("ActorId")
-                                .HasColumnType("uniqueidentifier");
-
-                            b1.Property<string>("Country")
-                                .IsRequired()
-                                .HasColumnType("nvarchar(max)");
-
-                            b1.Property<string>("State")
-                                .IsRequired()
-                                .HasColumnType("nvarchar(max)");
-
-                            b1.HasKey("ActorId");
-
-                            b1.ToTable("Actors");
-
-                            b1.WithOwner()
-                                .HasForeignKey("ActorId");
-                        });
-
-                    b.OwnsOne("EFCoreMovies.Entities.Address", "HomeAddress", b1 =>
-                        {
-                            b1.Property<Guid>("ActorId")
-                                .HasColumnType("uniqueidentifier");
-
-                            b1.Property<string>("Country")
-                                .IsRequired()
-                                .HasColumnType("nvarchar(max)");
-
-                            b1.Property<string>("State")
-                                .IsRequired()
-                                .HasColumnType("nvarchar(max)");
-
-                            b1.HasKey("ActorId");
-
-                            b1.ToTable("Actors");
-
-                            b1.WithOwner()
-                                .HasForeignKey("ActorId");
-                        });
-
-                    b.Navigation("BillingAddress")
-                        .IsRequired();
-
-                    b.Navigation("HomeAddress")
-                        .IsRequired();
-                });
-
-            modelBuilder.Entity("EFCoreMovies.Entities.Cinema", b =>
-                {
-                    b.OwnsOne("EFCoreMovies.Entities.Address", "Address", b1 =>
-                        {
-                            b1.Property<Guid>("CinemaId")
-                                .HasColumnType("uniqueidentifier");
-
-                            b1.Property<string>("Country")
-                                .IsRequired()
-                                .HasColumnType("nvarchar(max)")
-                                .HasColumnName("Country");
-
-                            b1.Property<string>("State")
-                                .IsRequired()
-                                .HasColumnType("nvarchar(max)")
-                                .HasColumnName("State");
-
-                            b1.HasKey("CinemaId");
-
-                            b1.ToTable("Cinemas");
-
-                            b1.WithOwner()
-                                .HasForeignKey("CinemaId");
-                        });
-
-                    b.Navigation("Address")
-                        .IsRequired();
-                });
-
-            modelBuilder.Entity("EFCoreMovies.Entities.CinemaDetail", b =>
-                {
-                    b.HasOne("EFCoreMovies.Entities.Cinema", "Cinema")
-                        .WithOne("CinemaDetail")
-                        .HasForeignKey("EFCoreMovies.Entities.CinemaDetail", "Id")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Cinema");
-                });
-
             modelBuilder.Entity("EFCoreMovies.Entities.CinemaHall", b =>
                 {
                     b.HasOne("EFCoreMovies.Entities.Cinema", "Cinema")
@@ -956,9 +841,6 @@ namespace EFCoreMovies.Migrations
 
             modelBuilder.Entity("EFCoreMovies.Entities.Cinema", b =>
                 {
-                    b.Navigation("CinemaDetail")
-                        .IsRequired();
-
                     b.Navigation("CinemaHalls");
 
                     b.Navigation("CinemaOffer")

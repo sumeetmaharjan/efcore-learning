@@ -35,6 +35,8 @@
         }
 
         public string? PictureURL { get; set; }
+        public Address BillingAddress { get; set; }
+        public Address HomeAddress { get; set; }
         public virtual ICollection<MovieActor> MovieActors { get; set; } // None Skip Style Many-Many RelationShip Look at MovieActor
     }
 }

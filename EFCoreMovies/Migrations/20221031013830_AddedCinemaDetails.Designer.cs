@@ -4,6 +4,7 @@ using EFCoreMovies;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using NetTopologySuite.Geometries;
 
@@ -12,9 +13,10 @@ using NetTopologySuite.Geometries;
 namespace EFCoreMovies.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20221031013830_AddedCinemaDetails")]
+    partial class AddedCinemaDetails
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -782,86 +784,6 @@ namespace EFCoreMovies.Migrations
                         .WithMany()
                         .HasForeignKey("MoviesId")
                         .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-                });
-
-            modelBuilder.Entity("EFCoreMovies.Entities.Actor", b =>
-                {
-                    b.OwnsOne("EFCoreMovies.Entities.Address", "BillingAddress", b1 =>
-                        {
-                            b1.Property<Guid>("ActorId")
-                                .HasColumnType("uniqueidentifier");
-
-                            b1.Property<string>("Country")
-                                .IsRequired()
-                                .HasColumnType("nvarchar(max)");
-
-                            b1.Property<string>("State")
-                                .IsRequired()
-                                .HasColumnType("nvarchar(max)");
-
-                            b1.HasKey("ActorId");
-
-                            b1.ToTable("Actors");
-
-                            b1.WithOwner()
-                                .HasForeignKey("ActorId");
-                        });
-
-                    b.OwnsOne("EFCoreMovies.Entities.Address", "HomeAddress", b1 =>
-                        {
-                            b1.Property<Guid>("ActorId")
-                                .HasColumnType("uniqueidentifier");
-
-                            b1.Property<string>("Country")
-                                .IsRequired()
-                                .HasColumnType("nvarchar(max)");
-
-                            b1.Property<string>("State")
-                                .IsRequired()
-                                .HasColumnType("nvarchar(max)");
-
-                            b1.HasKey("ActorId");
-
-                            b1.ToTable("Actors");
-
-                            b1.WithOwner()
-                                .HasForeignKey("ActorId");
-                        });
-
-                    b.Navigation("BillingAddress")
-                        .IsRequired();
-
-                    b.Navigation("HomeAddress")
-                        .IsRequired();
-                });
-
-            modelBuilder.Entity("EFCoreMovies.Entities.Cinema", b =>
-                {
-                    b.OwnsOne("EFCoreMovies.Entities.Address", "Address", b1 =>
-                        {
-                            b1.Property<Guid>("CinemaId")
-                                .HasColumnType("uniqueidentifier");
-
-                            b1.Property<string>("Country")
-                                .IsRequired()
-                                .HasColumnType("nvarchar(max)")
-                                .HasColumnName("Country");
-
-                            b1.Property<string>("State")
-                                .IsRequired()
-                                .HasColumnType("nvarchar(max)")
-                                .HasColumnName("State");
-
-                            b1.HasKey("CinemaId");
-
-                            b1.ToTable("Cinemas");
-
-                            b1.WithOwner()
-                                .HasForeignKey("CinemaId");
-                        });
-
-                    b.Navigation("Address")
                         .IsRequired();
                 });
 

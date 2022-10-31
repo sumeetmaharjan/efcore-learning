@@ -22,6 +22,7 @@ namespace EFCoreMovies
         public DbSet<Log> Logs { get; set; }
         public DbSet<Message> Messages { get; set; }
         public DbSet<Person> Persons { get; set; }
+        public DbSet<CinemaDetail> CinemaDetails { get; set; }
 
         protected override void ConfigureConventions(ModelConfigurationBuilder configurationBuilder)
         {
@@ -36,7 +37,7 @@ namespace EFCoreMovies
             modelBuilder.ApplyConfigurationsFromAssembly(Assembly.GetExecutingAssembly());
 
             // Ignore Entire Entity from the Database
-            modelBuilder.Ignore<Address>();
+            // modelBuilder.Ignore<Address>();
 
             // This is example of Keyless entity. 
             modelBuilder.Entity<CinemaWithoutLocation>().ToSqlQuery($"SELECT Id, Name FROM Cinemas").ToView(null);

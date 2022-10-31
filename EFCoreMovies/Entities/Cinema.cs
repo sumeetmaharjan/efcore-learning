@@ -2,14 +2,15 @@
 
 namespace EFCoreMovies.Entities
 {
-    
     public class Cinema
     {
         public Guid Id { get; set; }
         public string Name { get; set; }
         public Point Location { get; set; }
         public CinemaOffer CinemaOffer { get; set; } // <= this is navigation property
+        public Address Address { get; set; }
         public ICollection<CinemaHall> CinemaHalls { get; set; }
+        public CinemaDetail CinemaDetail { get; set; } // <= this is split entity
     }
 }
 

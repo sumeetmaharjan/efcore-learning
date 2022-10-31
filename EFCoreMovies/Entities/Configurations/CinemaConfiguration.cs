@@ -22,7 +22,18 @@ namespace EFCoreMovies.Entities.Configurations
             // One to Many Relationship using FluentAPI. Cinema has Many CinemaHall
             builder.HasMany(c => c.CinemaHalls) //Read as Cinema.HasMany.CinemaHall.Meanwhile.CinemaHall.Has.One.Cinema
                 .WithOne(ch => ch.Cinema) // Needs ch=>ch.Cinema because CinemaHall has Cinema
-                .HasForeignKey(ch => ch.CinemaId);
+                .HasForeignKey(ch => ch.CinemaId)
+                .OnDelete(DeleteBehavior.Restrict);
+
+            // This is split entity. It is not a new table but split from Cinema table
+            builder.HasOne(c => c.CinemaDetail).WithOne(c => c.Cinema).HasForeignKey<CinemaDetail>(cd => cd.Id);
+
+            // Change the column name of the address in Cinema Table 
+            builder.OwnsOne(c => c.Address, add =>
+            {
+                add.Property(p => p.State).HasColumnName("State");
+                add.Property(p => p.Country).HasColumnName("Country");
+            });
             var geometryFactory = NtsGeometryServices.Instance.CreateGeometryFactory(srid: 4326);
             builder.HasData(
                 QfxLabim(geometryFactory),

@@ -62,8 +62,13 @@ namespace EFCoreMovies.Controllers
 
             var cinema = new Cinema
             {
-                Name = "Guna Cinema",
+                Name = "Cineplex Cinema",
                 Location = cinemaLocation,
+                CinemaDetail = new CinemaDetail
+                {
+                    History = "the history....",
+                    Missions = "the missions....",
+                },
                 CinemaOffer = new CinemaOffer
                 {
                     DecimalPercentage = 5,
@@ -75,7 +80,7 @@ namespace EFCoreMovies.Controllers
                     new()
                     {
                         Cost = 200,
-                        Currency = Currency.NepaleseRupee,
+                        Currency = Currency.CanadianDollar,
                         CinemaHallType = CinemaHallType.ThreeDimension
                     },
                     new()
@@ -99,6 +104,25 @@ namespace EFCoreMovies.Controllers
 
             _dbContext.Add(cinema);
             await _dbContext.SaveChangesAsync();
+            return Ok(cinema);
+        }
+
+        [HttpGet("withdetail/{id:guid}")]
+        public async Task<IActionResult> GetIncludeDetails(Guid id)
+        {
+            var cinema = await _dbContext.Cinemas
+                .Include(c => c.CinemaHalls)
+                .Include(c => c.CinemaOffer)
+                .Include(c => c.CinemaDetail) // Include the Split entity like normal Relationship
+                .FirstOrDefaultAsync(c => c.Id == id);
+
+            if (cinema is null)
+            {
+                return NotFound();
+            }
+
+            cinema.Location = null!;
+
             return Ok(cinema);
         }
 
@@ -144,7 +168,8 @@ namespace EFCoreMovies.Controllers
         public async Task<IActionResult> Delete(Guid id)
         {
             var cinema = await _dbContext.Cinemas
-                .Include(x=>x.CinemaHalls) // Include is added for the optional Relationship.. Deleting this the cinema will add Null in the CinemaHall's CinemaId Foreignkey
+                .Include(x =>
+                    x.CinemaHalls) // Include is added for the optional Relationship.. Deleting this the cinema will add Null in the CinemaHall's CinemaId Foreignkey
                 .FirstOrDefaultAsync(c => c.Id == id);
             if (cinema is null)
             {
