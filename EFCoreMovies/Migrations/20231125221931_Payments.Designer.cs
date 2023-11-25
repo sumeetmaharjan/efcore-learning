@@ -13,17 +13,18 @@ using NetTopologySuite.Geometries;
 namespace EFCoreMovies.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20221031021703_Payments")]
+    [Migration("20231125221931_Payments")]
     partial class Payments
     {
+        /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "6.0.9")
+                .HasAnnotation("ProductVersion", "8.0.0")
                 .HasAnnotation("Relational:MaxIdentifierLength", 128);
 
-            SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder, 1L, 1);
+            SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
 
             modelBuilder.Entity("CinemaHallMovie", b =>
                 {
@@ -247,7 +248,6 @@ namespace EFCoreMovies.Migrations
                         .HasDefaultValue("TwoDimension");
 
                     b.Property<Guid?>("CinemaId")
-                        .IsRequired()
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<decimal>("Cost")
@@ -431,7 +431,6 @@ namespace EFCoreMovies.Migrations
             modelBuilder.Entity("EFCoreMovies.Entities.Keyless.CinemaWithoutLocation", b =>
                 {
                     b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<string>("Name")
@@ -440,7 +439,9 @@ namespace EFCoreMovies.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToView(null);
+                    b.ToTable((string)null);
+
+                    b.ToView(null, (string)null);
 
                     b.ToSqlQuery("SELECT Id, Name FROM Cinemas");
                 });
@@ -448,7 +449,6 @@ namespace EFCoreMovies.Migrations
             modelBuilder.Entity("EFCoreMovies.Entities.Keyless.MovieWithCounts", b =>
                 {
                     b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<int>("AmountActor")
@@ -466,7 +466,9 @@ namespace EFCoreMovies.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToView("MoviesWithCounts");
+                    b.ToTable((string)null);
+
+                    b.ToView("MoviesWithCounts", (string)null);
                 });
 
             modelBuilder.Entity("EFCoreMovies.Entities.Log", b =>
@@ -701,9 +703,11 @@ namespace EFCoreMovies.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Payment");
+                    b.ToTable("Payments");
 
                     b.HasDiscriminator<int>("PaymentType");
+
+                    b.UseTphMappingStrategy();
                 });
 
             modelBuilder.Entity("EFCoreMovies.Entities.Person", b =>
@@ -809,7 +813,7 @@ namespace EFCoreMovies.Migrations
                         new
                         {
                             Id = new Guid("4fb60000-a64a-9828-363b-08dabae55e02"),
-                            Amount = 852m,
+                            Amount = 852.41m,
                             PaymentDate = new DateTime(2022, 3, 8, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             PaymentType = 2,
                             Last4Digit = "1234"
@@ -817,7 +821,7 @@ namespace EFCoreMovies.Migrations
                         new
                         {
                             Id = new Guid("4fb60000-a64a-9828-7a5c-08dabae55e02"),
-                            Amount = 456m,
+                            Amount = 45.6m,
                             PaymentDate = new DateTime(2022, 8, 9, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             PaymentType = 2,
                             Last4Digit = "3214"
@@ -965,8 +969,7 @@ namespace EFCoreMovies.Migrations
                     b.HasOne("EFCoreMovies.Entities.Cinema", "Cinema")
                         .WithMany("CinemaHalls")
                         .HasForeignKey("CinemaId")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
+                        .OnDelete(DeleteBehavior.Restrict);
 
                     b.Navigation("Cinema");
                 });

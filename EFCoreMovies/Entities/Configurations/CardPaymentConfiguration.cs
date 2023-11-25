@@ -18,7 +18,7 @@ public class CardPaymentConfiguration : IEntityTypeConfiguration<CardPayment>
         {
             Id = Guid.Parse("4fb60000-a64a-9828-363b-08dabae55e02"),
             PaymentDate = new DateTime(2022, 3, 8),
-            Amount = 852,
+            Amount = 852.41m,
             PaymentType = PaymentType.Card,
             Last4Digit = "1234"
         };
@@ -30,7 +30,7 @@ public class CardPaymentConfiguration : IEntityTypeConfiguration<CardPayment>
         {
             Id = Guid.Parse("4fb60000-a64a-9828-7a5c-08dabae55e02"),
             PaymentDate = new DateTime(2022, 8, 9),
-            Amount = 456,
+            Amount = 45.6m,
             PaymentType = PaymentType.Card,
             Last4Digit = "3214"
         };
