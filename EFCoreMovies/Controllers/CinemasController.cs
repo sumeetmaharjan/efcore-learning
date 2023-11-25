@@ -168,8 +168,8 @@ namespace EFCoreMovies.Controllers
         public async Task<IActionResult> Delete(Guid id)
         {
             var cinema = await _dbContext.Cinemas
-                .Include(x =>
-                    x.CinemaHalls) // Include is added for the optional Relationship.. Deleting this the cinema will add Null in the CinemaHall's CinemaId Foreignkey
+                // Include is added for the optional Relationship.. Deleting this the cinema will add Null in the CinemaHall's CinemaId Foreignkey
+                .Include(x => x.CinemaHalls)
                 .FirstOrDefaultAsync(c => c.Id == id);
             if (cinema is null)
             {
