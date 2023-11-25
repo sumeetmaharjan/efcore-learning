@@ -24,6 +24,7 @@ namespace EFCoreMovies
         public DbSet<Person> Persons { get; set; }
         public DbSet<CinemaDetail> CinemaDetails { get; set; }
         public DbSet<Payment> Payments { get; set; }
+        public DbSet<Product> Products { get; set; }
 
         protected override void ConfigureConventions(ModelConfigurationBuilder configurationBuilder)
         {
@@ -87,6 +88,30 @@ namespace EFCoreMovies
 
             //modelBuilder.Entity<MovieActor>().HasKey(p => new { p.MovieId, p.ActorId });
             //modelBuilder.Entity<MovieActor>().Property(p => p.Order).HasMaxLength(150);
+
+            // Inheritance [Table Per Type]. This will split Product to different table based on the Type.
+            // Will create 3 tables.. Product, Merchandising and Rentable Movie.
+            modelBuilder.Entity<Merchandising>().ToTable("Merchandising");
+            modelBuilder.Entity<RentableMovie>().ToTable("RentableMovies");
+            var movie = new RentableMovie()
+            {
+                Id = Guid.Parse("0c120000-de89-ae50-2016-08dbee085f9b"),
+                Name = "Spider-Man",
+                MovieId = Guid.Parse("4fb60000-a64a-9828-e5a1-08daaa0857ff"),
+                Price = 5.99m
+            };
+            var merch = new Merchandising()
+            {
+                Id = Guid.Parse("0c120000-de89-ae50-6d3c-08dbee085f9c"),
+                Available = true,
+                IsClothing = true,
+                Name = "Naruto T-Shirt",
+                Weight = 1,
+                Volume = 1,
+                Price = 11.99m
+            };
+            modelBuilder.Entity<Merchandising>().HasData(merch);
+            modelBuilder.Entity<RentableMovie>().HasData(movie);
         }
     }
 }
