@@ -1,4 +1,7 @@
-﻿namespace EFCoreMovies.Dtos
+﻿using System;
+using System.Collections.Generic;
+
+namespace EFCoreMovies.Dtos
 {
     public class CreateMovieDto
     {

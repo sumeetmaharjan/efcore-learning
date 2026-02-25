@@ -1,4 +1,5 @@
-﻿using EFCoreMovies.Entities.Conversions;
+﻿using System;
+using EFCoreMovies.Entities.Conversions;
 
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;

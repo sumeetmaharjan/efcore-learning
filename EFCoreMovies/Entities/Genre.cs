@@ -1,4 +1,7 @@
-﻿namespace EFCoreMovies.Entities
+﻿using System;
+using System.Collections.Generic;
+
+namespace EFCoreMovies.Entities
 {
     public class Genre : AuditableEntity
     {

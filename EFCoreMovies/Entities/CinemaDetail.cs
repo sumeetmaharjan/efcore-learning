@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using System;
+using System.ComponentModel.DataAnnotations;
 
 namespace EFCoreMovies.Entities;
 // This is Example of Splitting the Table into Two Entities

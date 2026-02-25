@@ -1,4 +1,7 @@
-﻿using EFCoreMovies.Entities;
+﻿using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
+using EFCoreMovies.Entities;
 using EFCoreMovies.Utilities;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;

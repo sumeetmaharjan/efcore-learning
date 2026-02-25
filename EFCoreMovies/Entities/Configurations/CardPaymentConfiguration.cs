@@ -1,4 +1,5 @@
-﻿using EFCoreMovies.Entities.Enumerations;
+﻿using System;
+using EFCoreMovies.Entities.Enumerations;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 

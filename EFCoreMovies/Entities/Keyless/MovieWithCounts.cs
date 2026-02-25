@@ -1,4 +1,6 @@
-﻿namespace EFCoreMovies.Entities.Keyless;
+﻿using System;
+
+namespace EFCoreMovies.Entities.Keyless;
 
 // MovieWithCount is a View In SQL. Created via Migration
 public class MovieWithCounts

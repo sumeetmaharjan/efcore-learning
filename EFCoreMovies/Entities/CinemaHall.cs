@@ -1,4 +1,6 @@
-﻿using EFCoreMovies.Entities.Enumerations;
+﻿using System;
+using System.Collections.Generic;
+using EFCoreMovies.Entities.Enumerations;
 
 namespace EFCoreMovies.Entities
 {

@@ -1,4 +1,5 @@
-﻿using EFCoreMovies.Entities.Configurations;
+﻿using System.Collections.Generic;
+using EFCoreMovies.Entities.Configurations;
 using Microsoft.EntityFrameworkCore;
 
 namespace EFCoreMovies.Entities.SeedData

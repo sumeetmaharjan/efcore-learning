@@ -1,4 +1,6 @@
-﻿namespace EFCoreMovies.Entities.Keyless;
+﻿using System;
+
+namespace EFCoreMovies.Entities.Keyless;
 
 public class CinemaWithoutLocation
 {

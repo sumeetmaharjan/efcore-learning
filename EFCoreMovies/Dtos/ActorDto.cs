@@ -1,4 +1,6 @@
-﻿namespace EFCoreMovies.Dtos
+﻿using System;
+
+namespace EFCoreMovies.Dtos
 {
     public class ActorDto
     {

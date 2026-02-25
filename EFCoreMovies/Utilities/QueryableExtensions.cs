@@ -1,4 +1,6 @@
-﻿namespace EFCoreMovies.Utilities
+﻿using System.Linq;
+
+namespace EFCoreMovies.Utilities
 {
     public static class QueryableExtensions
     {

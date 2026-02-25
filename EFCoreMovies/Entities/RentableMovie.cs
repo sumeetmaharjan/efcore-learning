@@ -1,4 +1,6 @@
-﻿namespace EFCoreMovies.Entities;
+﻿using System;
+
+namespace EFCoreMovies.Entities;
 
 public class RentableMovie: Product
 {

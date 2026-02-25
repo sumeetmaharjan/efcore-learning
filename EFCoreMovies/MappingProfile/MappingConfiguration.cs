@@ -1,4 +1,5 @@
-﻿using AutoMapper;
+﻿using System.Linq;
+using AutoMapper;
 using EFCoreMovies.Dtos;
 using EFCoreMovies.Entities;
 using NetTopologySuite;
