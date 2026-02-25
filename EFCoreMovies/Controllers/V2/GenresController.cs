@@ -69,7 +69,10 @@ namespace EFCoreMovies.Controllers.V2
 
             var genre = _mapper.Map<Genre>(createGenreDto);
             //var status1 = _dbContext.Entry(genre).State;
-            _dbContext.Add(genre); // Marked for insertion 
+            _dbContext.Add(genre); // Marked for insertion. Changes the state of genre to Added.
+            // The code below is has same effect as above
+            //_dbContext.Entry(genre).State = EntityState.Added;
+            
             //var status2 = _dbContext.Entry(genre).State;
             await _dbContext.SaveChangesAsync();
             //var status3 = _dbContext.Entry(genre).State;

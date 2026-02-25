@@ -26,10 +26,49 @@ namespace EFCoreMovies
         public DbSet<Payment> Payments { get; set; }
         public DbSet<Product> Products { get; set; }
 
+        // protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+        // {
+        //     // This part only runs if configuration does not exist else where. 
+        //     // See Program.cs 
+        //     if (!optionsBuilder.IsConfigured)
+        //     {
+        //         optionsBuilder.UseSqlServer("name=DefaultConnection", options =>
+        //         {
+        //             options.UseNetTopologySuite();
+        //         });
+        //     }
+        // }
+
         protected override void ConfigureConventions(ModelConfigurationBuilder configurationBuilder)
         {
             // Overriding the default convention
             configurationBuilder.Properties<DateTime>().HaveColumnType("date");
+        }
+
+        public override Task<int> SaveChangesAsync(CancellationToken cancellationToken = new CancellationToken())
+        {
+            ProcessSaveChanges();
+            return base.SaveChangesAsync(cancellationToken);
+        }
+
+        private void ProcessSaveChanges()
+        {
+            foreach (var item in ChangeTracker.Entries()
+                         .Where(e => e is { State: EntityState.Added, Entity: AuditableEntity }))
+            {
+                var entity = item.Entity as AuditableEntity;
+                if (entity == null) continue;
+                entity.CreatedBy = "Sillicon";
+                entity.ModifiedBy = "Sillicon";
+            }
+            
+            foreach (var item in ChangeTracker.Entries()
+                         .Where(e => e is { State: EntityState.Modified, Entity: AuditableEntity }))
+            {
+                var entity = item.Entity as AuditableEntity;
+                entity?.ModifiedBy = "Sillicon";
+                item.Property(nameof(entity.CreatedBy)).IsModified = false;
+            }
         }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)

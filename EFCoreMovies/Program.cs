@@ -19,14 +19,28 @@ builder.Services.AddSwaggerGen();
 // AutoMapper
 builder.Services.AddAutoMapper(typeof(Program));
 
+// This is comments because its configured via ApplicationDbContext > OnConfiguring override
+// if this was un commented, onConfiguration code would not run.
 // Database configuration
 builder.Services.AddDbContext<ApplicationDbContext>(option =>
 {
     // Global tracking behaviour of EF setup.
     //option.UseQueryTrackingBehavior(QueryTrackingBehavior.TrackAll);
     //option.UseLazyLoadingProxies(); // LazyLoading EF Entities Requires EfC.Proxies nuget
-    option.UseSqlServer("name=DefaultConnection", sqlServer => sqlServer.UseNetTopologySuite());
+    // var useSqlite = builder.Configuration.GetValue<bool>("UseSqlite");
+    // if (useSqlite)
+    // {
+    //     option.UseSqlite("Filename=movies.sqlite");
+    // }
+    // else
+    // {
+        option.UseSqlServer("name=DefaultConnection", sqlServer => sqlServer.UseNetTopologySuite());
+    // }
 });
+
+// This is not actually configuring anything.. This is required for us to be able of inject 
+// ApplicationDbContext in controller and stuff.
+// builder.Services.AddDbContext<ApplicationDbContext>();
 
 var app = builder.Build();
 

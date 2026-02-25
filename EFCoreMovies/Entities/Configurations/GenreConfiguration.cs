@@ -1,4 +1,4 @@
-﻿using MassTransit;
+﻿
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
@@ -16,6 +16,8 @@ namespace EFCoreMovies.Entities.Configurations
                 .HasFilter(
                     "IsDeleted = 'false'"); // This is for Ignoring SoftDeleted so that Name that has be soft deleted can be used again 
             builder.HasData(SeedGenreData());
+            builder.Property(x => x.CreatedBy).HasMaxLength(50).IsRequired(false);
+            builder.Property(x => x.ModifiedBy).HasMaxLength(50).IsRequired(false);
             builder.Property<DateTime>("CreatedDate").HasDefaultValueSql("GetDate()").HasColumnType("datetime2");
         }
 
