@@ -1,5 +1,6 @@
 using System.Text.Json.Serialization;
 using EFCoreMovies;
+using EFCoreMovies.Utilities;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
@@ -11,16 +12,15 @@ var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddControllers()
     // To prevent the circular dependency when returning json object from API
-    .AddJsonOptions(options =>
-    {
-        options.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.IgnoreCycles;
-    });
+    .AddJsonOptions(options => { options.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.IgnoreCycles; });
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
 // AutoMapper
 builder.Services.AddAutoMapper(typeof(Program));
+
+builder.Services.AddScoped<IChangeTrackerEventHandler, ChangeTrackerEventHandler>();
 
 // This is comments because its configured via ApplicationDbContext > OnConfiguring override
 // if this was un commented, onConfiguration code would not run.
@@ -37,7 +37,7 @@ builder.Services.AddDbContext<ApplicationDbContext>(option =>
     // }
     // else
     // {
-        option.UseSqlServer("name=DefaultConnection", sqlServer => sqlServer.UseNetTopologySuite());
+    option.UseSqlServer("name=DefaultConnection", sqlServer => sqlServer.UseNetTopologySuite());
     // }
 });
 

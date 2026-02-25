@@ -6,14 +6,23 @@ using System.Threading.Tasks;
 using EFCoreMovies.Entities;
 using EFCoreMovies.Entities.Keyless;
 using EFCoreMovies.Entities.SeedData;
+using EFCoreMovies.Utilities;
 using Microsoft.EntityFrameworkCore;
 
 namespace EFCoreMovies
 {
     public class ApplicationDbContext : DbContext
     {
-        public ApplicationDbContext(DbContextOptions options) : base(options)
+        public ApplicationDbContext(DbContextOptions options, IChangeTrackerEventHandler? changeTrackerEventHandler = null) :
+            base(options)
         {
+            if (changeTrackerEventHandler == null) return;
+            
+            ChangeTracker.Tracked += changeTrackerEventHandler.TrackedHandler;
+            ChangeTracker.StateChanged += changeTrackerEventHandler.StateChangedHandler;
+            SavingChanges += changeTrackerEventHandler.SavingChangesHandler;
+            SavedChanges += changeTrackerEventHandler.SavedChangesHandler;
+            SaveChangesFailed += changeTrackerEventHandler.SaveChangedFailedHandler;
         }
 
         public DbSet<Genre> Genres { get; set; }
@@ -65,7 +74,7 @@ namespace EFCoreMovies
                 entity.CreatedBy = "Sillicon";
                 entity.ModifiedBy = "Sillicon";
             }
-            
+
             foreach (var item in ChangeTracker.Entries()
                          .Where(e => e is { State: EntityState.Modified, Entity: AuditableEntity }))
             {
